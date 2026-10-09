@@ -6,6 +6,8 @@ The Kauhale Method was created by John Shepherd and Sven Prevrhal, inspired by c
 
 Copyright © 2026 John A. Shepherd and Sven Prevrhal. All rights reserved.
 
+Version 2026-10-09. Changes from 2026-10-06: every kauhale keeps its hale under one `staff/` folder, in every kind of repository; the shared base rules are named `_hale-base.md` everywhere; adopting a product repository now moves its planning files into the kauhale and checks the live product by URL; new lessons on published working files and edge caches (section 19).
+
 Throughout this guide, **the owner** means you: the person the agents work for, who makes the final decisions.
 
 ### The words in this guide
@@ -125,7 +127,7 @@ Ask:
 3. "Should the existing AI setup be kept, split across the new hale, or retired?" (For a trial, keep it as is.)
 4. "Is there planning or related material in another repository that should move here?" (For a trial, leave it where it is.)
 
-Explain that nothing will be moved or renamed. If the repository publishes anything (a website, a public package), the hale go in a new private control repository beside it and the existing repository gains only a short pointer file. Otherwise the hale go in a `staff/` folder inside it. Either way, ownership of existing files is recorded in a table.
+Explain that no product file will be moved or renamed. If the repository publishes anything (a website, a public package), the hale go in a new private control repository beside it and the existing repository gains only a short pointer file; any planning files it holds (to-do lists, issue logs, lab books) move into the owning hale's folder (Part B section 9). Otherwise the hale go inside it. Either way, the hale live together in a `staff/` folder, and ownership of existing files is recorded in a table.
 
 Done when the person has seen the inventory and answered these questions.
 
@@ -164,7 +166,7 @@ Summarize the plan in a few lines and ask for the go-ahead. For an existing repo
 
 - **Trial:** tag the current commit (`kauhale-trial-start`) and push the tag, create the seed files, write the review date into KAUHALE.md, and change nothing else in the repository.
 - **Seed:** create the files in Part B section 6 ("Seed layout").
-- **Household:** create the files in Part B sections 8 and 15 (layout and templates): CLAUDE.md, the Haku's folder with KAUHALE.md, DIRECTIVES.md, roles, and TEAM.md if needed, plus one folder per hale.
+- **Household:** create the files in Part B sections 8 and 15 (layout and templates): CLAUDE.md, the Haku's folder `staff/lead/` with KAUHALE.md, DIRECTIVES.md, roles, and TEAM.md if needed, plus one folder per hale under `staff/`.
 
 Fill KAUHALE.md with the goals, dates, and style rules gathered so far. Commit and push. If you cannot push, give the person the files and walk them through "Add file," then "Upload files."
 
@@ -187,7 +189,7 @@ Have them open a new chat in the project and send the opening line for the Haku,
 
 > You are the Editor. Read `staff/lead/roles/lead.md` and follow it.
 
-(Use `lead/roles/lead.md` when the hale sit at the root of their repository, and `staff/lead/roles/lead.md` when they share a standalone repository with product files.)
+(Every kauhale uses the same path, `staff/lead/roles/lead.md`, whether it is standalone or a control repository.)
 
 (For a seed: "You are the Lead. Read `staff/lead/KAUHALE.md` and `staff/lead/STATE.md`, then follow CLAUDE.md.")
 
@@ -349,7 +351,7 @@ Use **a team of agents** when:
 
 ### The hybrid
 
-The two combine well. Run one Claude Code session as the Haku and define each role as a subagent in `.claude/agents/<role>.md` whose instructions say "read `lead/roles/<role>.md` and follow it." The Haku dispatches a directive ("Statistician, work STAT-002"); the subagent works in a fresh context, checkpoints to its folder, and returns a summary. You keep the file discipline of the team and lose the window switching.
+The two combine well. Run one Claude Code session as the Haku and define each role as a subagent in `.claude/agents/<role>.md` whose instructions say "read `staff/lead/roles/<role>.md` and follow it." The Haku dispatches a directive ("Statistician, work STAT-002"); the subagent works in a fresh context, checkpoints to its folder, and returns a summary. You keep the file discipline of the team and lose the window switching.
 
 Use the hybrid for short, well-defined directives. Keep a dedicated chat for long back-and-forth work in one domain, such as drafting the Approach or iterating on power assumptions. Both read and write the same files, so you can mix them freely.
 
@@ -489,6 +491,10 @@ The builder requests reviews through its OUTBOX, naming the branch, what changed
 
 ## 8. Repository layout
 
+### One layout everywhere
+
+Every kauhale keeps all of its hale together in one `staff/` folder, with the Haku at `staff/lead/`. The rule holds for a standalone repository, a control repository, a seed, and a full household. One shape means one set of paths in every role file, launcher, and opening line; a seed grows without moving anything; and the household never mixes with product files.
+
 ### Standalone
 
 ```
@@ -496,26 +502,28 @@ The builder requests reviews through its OUTBOX, naming the branch, what changed
   CLAUDE.md                  agent instructions, loaded automatically
   README.md                  how the system works, for humans
   .gitignore
-  lead/                      the Haku's folder (older projects use pi/ or chair/)
-    KAUHALE.md               the record of the whole kauhale
-    TODO.md or roadmap       the overall timeline
-    TEAM.md                  roles mapped to humans
-    PRODUCTS.md              the owner's front door: every hale's products, compiled at sync
-    DIRECTIVES.md            index of all the Haku's directives
-    directives/              one file per directive; done/ for finished ones
-    roles/                   one role file per agent, plus _employee-base.md
-    log/  notes/
-  <employee>/                one folder per employee
-    STATE.md                 one-page resumable summary
-    PRODUCTS.md              this hale's work products, with links
-    DIRECTIVES.md            index of this employee's directives
-    directives/  directives/done/
-    OUTBOX.md                requests to others
-    log/  notes/
-    tex/ or other            finished deliverable fragments, if the role writes any
+  staff/
+    lead/                    the Haku's folder (older projects use pi/ or chair/)
+      KAUHALE.md             the record of the whole kauhale
+      TODO.md or roadmap     the overall timeline
+      TEAM.md                roles mapped to humans
+      PRODUCTS.md            the owner's front door: every hale's products, compiled at sync
+      DIRECTIVES.md          index of all the Haku's directives
+      directives/            one file per directive; done/ for finished ones
+      roles/                 one role file per agent, plus _hale-base.md
+      log/  notes/
+    <employee>/              one folder per employee
+      STATE.md               one-page resumable summary
+      PRODUCTS.md            this hale's work products, with links
+      DIRECTIVES.md          index of this employee's directives
+      directives/  directives/done/
+      OUTBOX.md              requests to others
+      log/  notes/
+      tex/ or other          finished deliverable fragments, if the role writes any
+  ...product files, if any, outside staff/
 ```
 
-When a standalone repository already holds the product (code, a manuscript), put the household under `staff/` so it stays apart from the product files, with the Haku at `staff/lead/`. Assign ownership of product files in KAUHALE.md without moving them.
+When a standalone repository already holds the product (code, a manuscript), the product files stay where they are and `staff/` sits beside them. Assign ownership of product files in KAUHALE.md without moving them.
 
 **If a standalone product is ever released** (code published with a paper, a repository made public), separate first: release a clean copy of the product, or move `staff/` into its own control repository. Write this tripwire into KAUHALE.md.
 
@@ -526,8 +534,9 @@ The kauhale lives in its own private repository. The products it works on live i
 ```
 <project>-staff/  or  <org>-admin/      the control repository (private, never publishes)
   CLAUDE.md, README.md
-  lead/                                  the Haku's folder, as above
-  <hale>/                                one folder per hale, as above
+  staff/
+    lead/                                the Haku's folder, as above
+    <hale>/                              one folder per hale, as above
   .claude/skills/<hale>/                 one launcher per hale (section 12)
 
 <product-repo>/                          a website, a codebase, an organizational repo
@@ -537,6 +546,7 @@ The kauhale lives in its own private repository. The products it works on live i
 ```
 
 - **Ownership:** KAUHALE.md lists each product repository and the one hale that owns it. A hale's kuleana is its folder in the control repository plus the product repositories assigned to it.
+- **Product repositories hold product only.** To-do lists, issue logs, lab books, and audit worksheets are planning and working files; they live in the owning hale's folder. A technical manual for the product (how it builds, deploys, and is tested) stays with the product.
 - **Where the work lives:** directives, logs, notes, drafts, and reviews stay in the control repository. Only finished product goes into a product repository. The one exception is a hale that leads units in a private product repository (see "Larger organizations" below).
 - **One home per hale:** a hale writes its records (STATE, directives, OUTBOX, log, notes) in exactly one repository, its home. Every other repository it only reads, or changes as product through that repository's workflow.
 - **Working in two repositories:** in an app chat, attach both. In VS Code, keep sibling clones and open them together as one workspace.
@@ -549,7 +559,7 @@ A center or department with many repositories (a core lab, a website, workshops,
 
 A hale with a large domain can have **units** of its own: a Webmaster with a designer and a content editor, for example. Keep it to two levels:
 
-- **The units live in the control repository,** under the hale's folder (`webmaster/units/<unit>/`), or in a private, non-publishing repository the hale owns. Never in a repository that publishes.
+- **The units live in the control repository,** under the hale's folder (`staff/webmaster/units/<unit>/`), or in a private, non-publishing repository the hale owns. Never in a repository that publishes.
 - **One record per level.** The hale's own STATE, directives, and OUTBOX are the only things the Haku reads. Units report to the hale, and the hale summarizes upward at each checkpoint.
 - **The hale's home follows its units.** When the units live in a product repository the hale owns, the hale's whole house moves there with them (`<product-repo>/staff/<hale>/`). The hale reads the control repository for the Haku's directives and the shared rules, and writes nothing there. It adopts each Haku directive in its own index, posts requests to other hale in its own OUTBOX, and the Haku reads that house and relays the requests at sync. The control repository keeps a one-line pointer in place of the hale's folder, and KAUHALE.md records where the house is. Before moving, check who can read the product repository: directives often carry budget figures and remarks about named people.
 - **One Haku per kauhale.** The hale that leads units keeps its plain title (Webmaster, Core Lead).
@@ -565,10 +575,12 @@ Most projects already exist before they become a kauhale. An existing repository
 3. **Keep the working conventions.** If the repository already has a to-do list with stable IDs, a notes convention, or a commit message format, the kauhale adopts them. Directives cite existing items rather than copying them, and hale close items in their own sections.
 4. **Assign ownership without moving files.** Website pages, data files, and code stay where the build and imports expect them. Record ownership in KAUHALE.md as a table. For code projects, check it with a script: every file has exactly one owner.
 5. **Decide where the kauhale lives, then reconcile with existing rules.** If the repository publishes anything, create a control repository for the kauhale (section 8); the existing repository keeps its rules unchanged and gains only a pointer CLAUDE.md. If it never publishes, the kauhale goes in `staff/`: keep any review rules for the product and add a narrow, written exception for `staff/`, recorded wherever the existing rules live.
-6. **Fold in related repositories.** If planning lives in a separate repository, move what is still current into the Haku's folder, note where it came from, and archive the old repository once the move is confirmed.
-7. **Assign existing branches.** Give each active branch an owning hale. Flag dead branches as "do not build on" rather than deleting them.
-8. **Map the people already working.** People who already commit become counterparts for the hale that cover their work. Record them in TEAM.md and confirm their GitHub access.
-9. **Make the adoption itself a reviewed change.** Any change to the existing repository (the pointer CLAUDE.md, or `staff/` in a standalone one) goes on a branch. The owner approves, then merge.
+6. **Move planning files out of a product repository.** When the kauhale lives in a control repository, the product repository's to-do list, issue log, and running log move to the owning hale: open items into a living backlog in its `notes/`, the full text verbatim into a history folder in its `notes/`, and items another hale leads into that hale's notes. Fix every reference (README, build excludes, scripts) in the same reviewed change. Keep the product's technical manual where it is.
+7. **Fold in related repositories.** If planning lives in a separate repository, move what is still current into the Haku's folder, note where it came from, and archive the old repository once the move is confirmed.
+8. **Assign existing branches.** Give each active branch an owning hale. Flag dead branches as "do not build on" rather than deleting them.
+9. **Map the people already working.** People who already commit become counterparts for the hale that cover their work. Record them in TEAM.md and confirm their GitHub access.
+10. **Make the adoption itself a reviewed change.** Any change to the existing repository (the pointer CLAUDE.md, the planning-file move, or `staff/` in a standalone one) goes on a branch. The owner approves, then merge.
+11. **Check what the live product actually publishes.** Request each working file and folder by its public URL (to-do lists, `docs/`, notes, CSVs, the pointer CLAUDE.md) and confirm it returns 404. Reading the exclude list is not enough.
 
 ### Worked examples
 
@@ -602,8 +614,8 @@ The owner chooses one of three:
 
 1. **Create the repository** in your GitHub account or organization; private is fine.
 2. **Install the Claude GitHub App** with access to the repository (github.com/apps/claude, choose your account, Configure, add the repo). Without it, agent chats cannot push.
-3. **Scaffold the folders** from section 8, with empty templates from section 15.
-4. **Write the role files**: one per agent, plus `_employee-base.md` with the shared rules. Domain, deliverables, owned files, and who to hand off to.
+3. **Scaffold the folders** under `staff/` from section 8, with empty templates from section 15.
+4. **Write the role files** in `staff/lead/roles/`: one per agent, plus `_hale-base.md` with the shared rules. Domain, deliverables, owned files, and who to hand off to.
 5. **Write KAUHALE.md** (section 15.2): goals and key dates, style rules, ownership table, status by role, decision log, pointer to the directives index.
 6. **Write CLAUDE.md** (section 15.1) and the README.
 7. **Seed the timeline** (TODO.md or roadmap) from whatever exists: an old spreadsheet, issue list, or planning doc.
@@ -628,7 +640,7 @@ The owner chooses one of three:
 
 **Opening line for every chat:**
 
-> You are the <Role> for <PROJECT>. Read `lead/roles/<role>.md` and follow it.
+> You are the <Role> for <PROJECT>. Read `staff/lead/roles/<role>.md` and follow it.
 
 Name chats by project, role, and generation: "Novel Editor", later "Novel Editor 2".
 
@@ -694,11 +706,11 @@ role is named, ask which one before doing anything.
 
 | Role | Writes in | Role file |
 |---|---|---|
-| Haku | lead/ | lead/roles/lead.md |
-| <Role> | <role>/ | lead/roles/<role>.md |
+| Haku | staff/lead/ | staff/lead/roles/lead.md |
+| <Role> | staff/<role>/ | staff/lead/roles/<role>.md |
 
-Employees also follow lead/roles/_employee-base.md. Ownership,
-dates, and style rules are in lead/KAUHALE.md.
+Employees also follow staff/lead/roles/_hale-base.md. Ownership,
+dates, and style rules are in staff/lead/KAUHALE.md.
 
 ## Start of every session
 1. App chat: attach and clone <owner>/<repo>. VS Code: git pull.
@@ -729,11 +741,11 @@ dates, and style rules are in lead/KAUHALE.md.
 ```
 # Role: <Role>
 
-- Folder: <folder>/
+- Folder: staff/<folder>/
 - Prefix: <PREFIX>
 - Reports to: Haku
 
-Before anything else, read lead/roles/_employee-base.md and follow it.
+Before anything else, read staff/lead/roles/_hale-base.md and follow it.
 
 ## Domain
 - What this role is responsible for
@@ -949,6 +961,9 @@ Last updated: YYYY-MM-DD
 - **External humans work through drafts.** A human companion for a hale (a task force member) gets no repository access; the hale drafts email in its folder and the owner sends it.
 - **The owner needs a front door to the products (a conference, 2026-10-06).** After a few days of work, the conference owner could not find what the hale had made or who owned it: a Gantt chart built the night before was mentioned only in a line of the Webmaster's STATE.md, and the sponsor pipeline sat in a notes folder among drafts and how-tos. STATE.md is the hale's memory and OUTBOX.md carries requests; neither is written for the owner to read. The fix was a PRODUCTS.md in every hale, updated at checkpoint, and one compiled catalog in the Haku's folder with owner, link, as-of date, and status for each product.
 - **One home per hale (a research program, 2026-10-06).** One hale was given units in its private product repository while keeping its house in the control repository, with a launcher in each. Two sessions of that hale, one started from each repository, adopted the same three directives in parallel, and one overwrote the other's files. The fix was the one-home rule in section 8: a hale writes in exactly one repository and reads the rest, and when it leads units in a product repository its house moves there.
+- **One layout everywhere (a research lab, 2026-10-09).** The lab's control repository was first built with its hale at the root, as the guide then specified for control repositories, while the conference kauhale kept its hale in `staff/`. Two shapes meant two sets of paths in role files, launchers, and opening lines. The owner set one standard: every kauhale keeps all its hale under `staff/`. The move was one `git mv` and a path rewrite, cheap only because no session had written there yet.
+- **Exclude lists fail open (a research lab, 2026-10-08).** A website's to-do list and issue log were kept off the site by its exclude list, but its `docs/` folder was missing from that list, so internal planning notes and audit worksheets were publicly served. Nobody noticed, because everyone read the configuration instead of requesting the URLs. The fix was to move the planning files into the Webmaster's hale and exclude `docs/`; the lesson is to test the live site by URL whenever working files sit in a product repository.
+- **Deleting a published file is not instant (a research lab, 2026-10-09).** After the fix merged, the site's origin returned 404, but the hosting provider's edge cache kept serving copies for days. The site's domain was managed by another organization, so the owner had no way to purge that cache. The copies could only age out. Keep working files out of product repositories from the start, and know the cache lifetime and who can purge it before anything sensitive is published.
 
 ## 20. New project checklist
 
@@ -961,7 +976,9 @@ Last updated: YYYY-MM-DD
 - [ ] Role files and the shared base rules written
 - [ ] Every owned file has exactly one owner (scripted check for code projects)
 - [ ] KAUHALE.md, timeline, TEAM.md, PRODUCTS.md, CLAUDE.md, README written
-- [ ] Nothing of the kauhale in any repository that publishes; pointer CLAUDE.md in each product repository (control repository only)
+- [ ] All hale under `staff/`, with the Haku at `staff/lead/`
+- [ ] Nothing of the kauhale in any repository that publishes; pointer CLAUDE.md in each product repository (control repository only); product repositories' planning files moved to their hale
+- [ ] Live product checked by URL: working files and the pointer CLAUDE.md return 404
 - [ ] Committed and pushed (or merged after review)
 - [ ] Claude project created with instructions, memory separate, no uploads
 - [ ] Connectors on; old chats archived
