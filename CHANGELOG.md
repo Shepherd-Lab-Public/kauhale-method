@@ -2,6 +2,12 @@
 
 Newest first. Each heading is a git tag.
 
+## Unreleased
+
+- Git conventions: prefer SQLite when a project needs a database; gitignore the database file and commit the schema and a rebuild script. One hale owns the database and is its only writer; data that cannot be rebuilt gets a backup outside git; the live file stays off synced folders and network drives.
+- Lessons learned: local databases can be recreated on a second machine from the rebuild script.
+- New-project checklist item for the database.
+
 ## 2026-10-09
 
 - One layout everywhere: every kauhale keeps all its hale under `staff/`, with the Haku at `staff/lead/`, in standalone and control repositories alike.

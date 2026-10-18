@@ -914,6 +914,7 @@ Last updated: YYYY-MM-DD
 - Product repositories keep their own review workflow (branch, preview, approval, merge). The hale that owns one follows it.
 - Never force-push or rewrite `main`. Unverified-commit badges on old commits are cosmetic; leave them.
 - `.gitignore` large binaries and sensitive data. For files that must stay local, such as copyrighted PDFs, commit a manifest listing what should be present, named by key.
+- When a project needs a database, prefer SQLite: one file, no server to run. Keep the database file out of the repository (gitignore `*.db`, `*.sqlite`). Commit the schema and a script that rebuilds the database from its sources instead. One hale owns the schema and the rebuild script and is the only one that writes; the others read or send requests through OUTBOX.md. If anything in the database cannot be rebuilt, back it up somewhere other than git and say where in the owning hale's role file. Keep the live file off synced folders (Dropbox, OneDrive, Google Drive) and network drives, where SQLite files can be corrupted.
 - Keep `main` free of branch protection rules that would reject agent pushes, unless you add the pull-request setup in section 17.
 
 ## 17. Human counterparts and access
@@ -949,7 +950,7 @@ Last updated: YYYY-MM-DD
 - **Deliverables as fragments.** When the product must be assembled (LaTeX attachments, a website, a book's chapters), each role writes plain fragments in its own folder and one role owns the build that pulls them in. Ownership stays clean and the build stays in one place.
 - **Specialists appear as you go.** A grant team added a Statistician once power calculations and demographics outgrew the Physicist. Adding a role means a role file, a folder, a row in the ownership and access tables, and a decision-log entry.
 - **Standing rules go in role files; work goes in directives.** A format for paper notes is a rule. Reading ten papers is a directive.
-- **Local-only resources need a plan.** A local database or gitignored PDFs are reachable only from VS Code on the machine that has them. Say so in the role file.
+- **Local-only resources need a plan.** A local database or gitignored PDFs are reachable only from VS Code on the machine that has them. Say so in the role file. A committed rebuild script (section 16) lets a second machine recreate a database instead of copying it.
 - **Keep the kauhale out of anything that publishes (a conference, 2026-10-05).** The conference team first lived inside the website repository in a `staff/` folder excluded from the build. It worked, but one wrong exclude rule or one file in the wrong folder would have published planning files, drafts, and sponsor details, and exclusion rules fail silently. The team moved to its own staff repository; the Webmaster's kuleana reaches into the site repository, and everything else stays private.
 - **Separate making from judging.** In an imaging pipeline, builders own stages and advisors (Physicist, Statistician, Programmer) own specifications and reviews. The builder that wrote a calibration change is the wrong one to judge its physics.
 - **Code projects map hale to the pipeline.** When a codebase already has stages, give each builder a contiguous run of stages and every file exactly one owner. Check ownership with a script: every file should have one owner and none should have two.
@@ -978,6 +979,7 @@ Last updated: YYYY-MM-DD
 - [ ] KAUHALE.md, timeline, TEAM.md, PRODUCTS.md, CLAUDE.md, README written
 - [ ] All hale under `staff/`, with the Haku at `staff/lead/`
 - [ ] Nothing of the kauhale in any repository that publishes; pointer CLAUDE.md in each product repository (control repository only); product repositories' planning files moved to their hale
+- [ ] Database (if any): SQLite, file gitignored, schema and rebuild script committed, one owning hale, backup plan for anything that cannot be rebuilt
 - [ ] Live product checked by URL: working files and the pointer CLAUDE.md return 404
 - [ ] Committed and pushed (or merged after review)
 - [ ] Claude project created with instructions, memory separate, no uploads
