@@ -1,6 +1,6 @@
 # The Kauhale Method
 
-A way to run a large, long project as a household of AI agents. Each agent keeps its own house, works its own responsibility, and writes everything that matters to shared files, so no chat ever has to remember the whole project. It was developed on a grant proposal, a scientific conference, a medical hardware project, and a medical imaging analysis pipeline, and it suits any long project with a endless variety of distinct kinds of work: books, websites, research, events, device development, committee work, etc.
+A way to run a large, long project as a household of AI agents. Each agent keeps its own house, works its own responsibility, and writes everything that matters to shared files, so no chat ever has to remember the whole project. It was developed on a grant proposal, a scientific conference, a medical hardware project, and a medical imaging analysis pipeline, and it suits any long project with an endless variety of distinct kinds of work: books, websites, research, events, device development, committee work, etc.
 
 The Kauhale Method was created by John Shepherd and Sven Prevrhal, inspired by conversations the two had at MICCAI 2026.
 
@@ -166,7 +166,7 @@ Summarize the plan in a few lines and ask for the go-ahead. For an existing repo
 
 - **Trial:** tag the current commit (`kauhale-trial-start`) and push the tag, create the seed files, write the review date into KAUHALE.md, and change nothing else in the repository.
 - **Seed:** create the files in Part B section 6 ("Seed layout").
-- **Household:** create the files in Part B sections 8 and 15 (layout and templates): CLAUDE.md, the Haku's folder `staff/lead/` with KAUHALE.md, DIRECTIVES.md, roles, and TEAM.md if needed, plus one folder per hale under `staff/`.
+- **Household:** create the files in Part B sections 8 and 15 (layout and templates): CLAUDE.md, the Haku's folder `staff/lead/` with KAUHALE.md, STATE.md, PRODUCTS.md, DIRECTIVES.md, roles, and TEAM.md if needed, plus one folder per hale under `staff/`.
 
 Fill KAUHALE.md with the goals, dates, and style rules gathered so far. Commit and push. If you cannot push, give the person the files and walk them through "Add file," then "Upload files."
 
@@ -187,11 +187,11 @@ Walk them through creating a Claude project for this kauhale:
 
 Have them open a new chat in the project and send the opening line for the Haku, for example:
 
-> You are the Editor. Read `staff/lead/roles/lead.md` and follow it.
+> You are the Haku (Editor) for <PROJECT>. Read `staff/lead/roles/lead.md` and follow it.
 
 (Every kauhale uses the same path, `staff/lead/roles/lead.md`, whether it is standalone or a control repository.)
 
-(For a seed: "You are the Lead. Read `staff/lead/KAUHALE.md` and `staff/lead/STATE.md`, then follow CLAUDE.md.")
+(For a seed: "You are the Haku (Lead) for <PROJECT>. Read `staff/lead/KAUHALE.md` and `staff/lead/STATE.md`, then follow CLAUDE.md.")
 
 When it asks to add the repository with push access, allow it. Ask the new chat to make a small first entry and say "checkpoint." The person confirms the commit appears on GitHub. That proves the whole loop works.
 
@@ -240,7 +240,7 @@ For a website, the kauhale lives in its own private repository and the Webmaster
 
 ### Your own style rules
 
-Section 12.2 has a place for style rules every agent follows. Put your own there: voice, spelling, punctuation habits, words to avoid, how formal to be. The agents apply them to everything they write.
+KAUHALE.md has a place for style rules every agent follows (section 15.2). Put your own there: voice, spelling, punctuation habits, words to avoid, how formal to be. The agents apply them to everything they write.
 
 ---
 
@@ -266,7 +266,7 @@ So "hale" names both the role (the Librarian's hale, the CFO's hale) and the pla
 
 The Haku is the head of the kauhale. It keeps its own hale like every other agent, and it also coordinates the whole compound: it reads every hale's state, issues kauoha (directives), keeps KAUHALE.md, the record of the whole compound, and brings decisions to the owner. Every kauhale has exactly one Haku, from a one-hale seed to a full household.
 
-A project may also give its Haku a familiar title: Haku (PI) for a grant, Haku (Chair) for a conference, Haku (Editor) for a book, Haku (Lead) for a codebase. One opening line then works for every project: "You are the Haku."
+A project may also give its Haku a familiar title: Haku (PI) for a grant, Haku (Chair) for a conference, Haku (Editor) for a book, Haku (Lead) for a codebase. The folder and role file stay `staff/lead/` and `lead.md` whatever the title, so one opening line works for every project: "You are the Haku for <PROJECT>."
 
 ### Kuleana: what each hale is responsible for
 
@@ -351,9 +351,15 @@ Use **a team of agents** when:
 
 ### The hybrid
 
-The two combine well. Run one Claude Code session as the Haku and define each role as a subagent in `.claude/agents/<role>.md` whose instructions say "read `staff/lead/roles/<role>.md` and follow it." The Haku dispatches a directive ("Statistician, work STAT-002"); the subagent works in a fresh context, checkpoints to its folder, and returns a summary. You keep the file discipline of the team and lose the window switching.
+The two combine, within limits. Run one Claude Code session as the Haku and define a role as a subagent in `.claude/agents/<role>.md` whose instructions say "read `staff/lead/roles/<role>.md` and follow it." The Haku dispatches a directive ("Statistician, work STAT-002"); the subagent works in a fresh context, checkpoints to its folder, and returns a summary. You keep the file discipline of the team and lose the window switching.
 
-Use the hybrid for short, well-defined directives. Keep a dedicated chat for long back-and-forth work in one domain, such as drafting the Approach or iterating on power assumptions. Both read and write the same files, so you can mix them freely.
+A subagent that reads a role file *is* that hale, so the hybrid is bound by the rule that a hale runs in one place at a time (section 12). The Haku dispatches a hale subagent only when all of these hold:
+
+- **The owner asks for it,** naming the hale and the directive. The Haku never dispatches on its own initiative, and no other hale dispatches at all.
+- **The owner confirms the hale has no open session** anywhere: no chat, no VS Code session, no other subagent.
+- **It runs in the foreground,** one at a time, and returns before the Haku does anything else in that hale's domain. Never in the background.
+
+Use the hybrid for short, well-defined directives. Keep a dedicated chat for long back-and-forth work in one domain, such as drafting the Approach or iterating on power assumptions. Both read and write the same files, so a hale can be run either way, but never both at once: close the chat (after a checkpoint) before dispatching that hale as a subagent.
 
 ### Borrow the file discipline either way
 
@@ -369,13 +375,14 @@ Even in a single session, three habits from the team model pay off:
 | Kauhale | The project and its repository. |
 | Hale | One agent: its role and its folder. |
 | Kuleana | A role's domain and the files only it may write. |
-| Haku | The head of the kauhale, the coordinating hale (titled PI for a grant, Chair for a conference, Editor for a book). The owner talks to it about direction and priorities. |
-| Employee | A specialist agent with one domain (Librarian, CFO, Webmaster, and so on). |
+| Haku | The head of the kauhale, the coordinating hale (titled PI for a grant, Chair for a conference, Editor for a book, Lead for a codebase). The owner talks to it about direction and priorities. |
+| Staff hale | Any hale other than the Haku: a specialist with one domain (Librarian, CFO, Webmaster, and so on), builder or advisor. |
+| Helper | A subagent a hale starts for a piece of its own work (search, read, summarize, draft). It loads no role file and writes nothing; the hale that started it does all the writing. |
 | Directive | The unit of work: a goal with a definition of done. One file per directive. |
 | Task | A step inside a directive, numbered under it (SCI-004.2). |
 | Product | A work product the owner opens, reads, or sends: a list, tracker, draft, chart, or recommendation. Listed in PRODUCTS.md. Logs, STATE.md, and OUTBOX.md are working files, never products. |
 | Checkpoint | The end-of-session routine: log, update directives, update PRODUCTS.md, rewrite STATE.md, commit, push. |
-| Sync | The Haku's routine: read every employee's state, update KAUHALE.md, compile the products catalog, issue directives. |
+| Sync | The Haku's routine: read every hale's state, update KAUHALE.md, compile the products catalog, issue directives. |
 | Counterpart | The human behind a role, listed in TEAM.md. |
 | Control repository | The kauhale's own private repository, beside the product repositories its hale own. |
 | Product repository | A repository holding only product (a website, code, an organization's records), owned by one hale. |
@@ -391,7 +398,7 @@ Answer these before creating anything.
 1. **Standalone or control repository?** One rule decides it: **a kauhale never shares a repository with anything that publishes.**
    - **Standalone** (a grant proposal, a book manuscript, a private analysis pipeline): the repository exists for the project and nothing is published from it. The kauhale lives inside it.
    - **Control repository** (a conference with a website, a center with several repositories): the product publishes, or the work spans several repositories. The kauhale gets its own private repository, and hale reach into the product repositories they own.
-2. **What are the roles?** Mirror how the work is already divided. Existing team labels in a timeline or spreadsheet are a good source (a conference timeline with six team labels, such as planning, finances, and sponsors, became six roles). Five or six employees is a workable number. A project with one kind of work can start as a seed kauhale (section 6) and grow.
+2. **What are the roles?** Mirror how the work is already divided. Existing team labels in a timeline or spreadsheet are a good source (a conference timeline with six team labels, such as planning, finances, and sponsors, became six roles). Five or six staff hale is a workable number. A project with one kind of work can start as a seed kauhale (section 6) and grow.
 3. **What is the final product, and in what format?** Decide where finished output lives and who assembles it. Working memory is always markdown; the product may be LaTeX, a website, a spreadsheet, or documents.
 4. **Does it need advisors?** If builders implement models, code, or claims that someone else should judge, plan advisor hale and a review gate (section 7).
 5. **Who are the humans?** Note which roles have a real person behind them and whether those people will have GitHub access.
@@ -439,7 +446,7 @@ Add one when any of these happens:
 2. Add the shared base rules: `staff/lead/roles/_hale-base.md`.
 3. Add an ownership table (and a review gate, if the new hale is an advisor) to KAUHALE.md.
 4. Convert TODO.md items that belong to the new hale into directives: add `staff/lead/DIRECTIVES.md` and `staff/lead/directives/`.
-5. Create the new hale's folder (STATE, DIRECTIVES index, directives/, OUTBOX, log, notes) and its role file.
+5. Create the new hale's folder (STATE, PRODUCTS, DIRECTIVES index, directives/, OUTBOX, log, notes) and its role file.
 6. If a person comes with it, add `staff/lead/TEAM.md`.
 7. Update CLAUDE.md's hale table and log the change in the decision log.
 
@@ -503,8 +510,9 @@ Every kauhale keeps all of its hale together in one `staff/` folder, with the Ha
   README.md                  how the system works, for humans
   .gitignore
   staff/
-    lead/                    the Haku's folder (older projects use pi/ or chair/)
+    lead/                    the Haku's folder, whatever its title (PI, Chair, Editor)
       KAUHALE.md             the record of the whole kauhale
+      STATE.md               the Haku's own one-page resumable summary
       TODO.md or roadmap     the overall timeline
       TEAM.md                roles mapped to humans
       PRODUCTS.md            the owner's front door: every hale's products, compiled at sync
@@ -512,14 +520,15 @@ Every kauhale keeps all of its hale together in one `staff/` folder, with the Ha
       directives/            one file per directive; done/ for finished ones
       roles/                 one role file per agent, plus _hale-base.md
       log/  notes/
-    <employee>/              one folder per employee
+    <hale>/                  one folder per staff hale
       STATE.md               one-page resumable summary
       PRODUCTS.md            this hale's work products, with links
-      DIRECTIVES.md          index of this employee's directives
+      DIRECTIVES.md          index of this hale's directives
       directives/  directives/done/
       OUTBOX.md              requests to others
       log/  notes/
       tex/ or other          finished deliverable fragments, if the role writes any
+  .claude/skills/<hale>/     one launcher per hale, if you use Claude Code (section 12)
   ...product files, if any, outside staff/
 ```
 
@@ -563,6 +572,7 @@ A hale with a large domain can have **units** of its own: a Webmaster with a des
 - **One record per level.** The hale's own STATE, directives, and OUTBOX are the only things the Haku reads. Units report to the hale, and the hale summarizes upward at each checkpoint.
 - **The hale's home follows its units.** When the units live in a product repository the hale owns, the hale's whole house moves there with them (`<product-repo>/staff/<hale>/`). The hale reads the control repository for the Haku's directives and the shared rules, and writes nothing there. It adopts each Haku directive in its own index, posts requests to other hale in its own OUTBOX, and the Haku reads that house and relays the requests at sync. The control repository keeps a one-line pointer in place of the hale's folder, and KAUHALE.md records where the house is. Before moving, check who can read the product repository: directives often carry budget figures and remarks about named people.
 - **One Haku per kauhale.** The hale that leads units keeps its plain title (Webmaster, Core Lead).
+- **The owner opens units.** A unit is a session with its own role file, so the hale that leads it never starts it itself (section 12, "Only the owner opens a hale").
 
 ## 9. Adopting an existing repository
 
@@ -623,7 +633,7 @@ The owner chooses one of three:
 9. **Commit and push.** Any pointer file added to a product repository goes through that repository's own review workflow.
 10. **Create the Claude project** (section 12).
 11. **Open the Haku's chat first** and ask for a sync. It turns the timeline into the first directives.
-12. **Open employee chats as they get directives.** An employee with nothing assigned has nothing to do.
+12. **Open staff hale chats as they get directives.** A hale with nothing assigned has nothing to do.
 
 ## 12. Claude project and tools
 
@@ -652,11 +662,15 @@ Name chats by project, role, and generation: "Novel Editor", later "Novel Editor
 
 **One rule across both:** never run the same role in two places at once.
 
+**Only the owner opens a hale.** No agent starts a session as another hale, or a second copy of itself, in the foreground or the background. Any session that loads a role file counts as that hale, whether it is a chat, a VS Code session, or a subagent. The single exception is the narrow hybrid dispatch in section 3. A hale may still use helpers (section 4) for its own work: they load no role file, never commit or checkpoint, and return their results to the hale, which does the writing. Work for another hale goes through OUTBOX.md and waits until the owner opens that hale.
+
+In Claude Code, this can be enforced rather than only instructed: a `PreToolUse` hook on the subagent tool that blocks any call whose prompt names a role file (`staff/lead/roles/`), leaving helpers free to run.
+
 **A chat kept open is one long session.** This applies to any chat-based agent tool. The start routine (pull, read state, sweeps) runs only when a session starts, and an app chat kept open for days never starts again: its clone drifts and the routine never reruns. Write the trigger into the base rules: rerun the start routine at the first message of each new day (the hale compares today's date with its latest log file) and whenever the human opens with "start", and `git pull --rebase` before reading other hale's files. Long chats also get summarized, so the repository is the memory.
 
 **Switching roles with one command per hale (Claude-specific).** The mechanism below is unique to Claude Code; the principle is general: give each role a single command that starts a fresh session and loads its role file. Other agent tools offer their own ways to store reusable prompts or commands; use whatever the tool provides, or simply paste the role line into a new session. In Claude Code, give each hale a project skill at `.claude/skills/<hale>/SKILL.md` with `disable-model-invocation: true`, so only the human can run it. The skill pulls, reads CLAUDE.md and the role file, and runs the start routine. Switching roles is then: start a new conversation in the Claude panel and type `/haku`, `/webmaster`, `/statistician`. Each new conversation is a fresh session, so the start routine runs every time without a trigger rule. The skills live in the repository, so every clone has them.
 
-**Split by what each hale must reach.** The principle is general: run a role wherever its tools and data are. In the Claude setup, hale that need connectors (Gmail, Calendar, Drive, the Claude project) run in Claude app chats with the daily-restart rule. Hale that work on repository files and local, gitignored sources run in VS Code, where local folders are visible and fresh sessions come free.
+**Split by what each hale must reach.** The principle is general: run a role wherever its tools and data are. In the Claude setup, hale that need connectors (Gmail, Calendar, Drive, the Claude project) run in Claude app chats with the daily-restart rule. Hale that work on repository files and local, gitignored sources run in VS Code, where local folders are visible and fresh sessions come free (section 19, "Open chats never restart").
 
 ## 13. Using other models
 
@@ -670,7 +684,7 @@ Nothing in the method is specific to Claude. It needs three things: a model that
 
 ## 14. Operating rhythm
 
-**Each working session, per employee:** the agent pulls, reads its state and directives, reports in three lines, works, then checkpoints. In an app chat kept open, "each working session" means each new day or each "start" (section 12).
+**Each working session, per hale:** the agent pulls, reads its state and directives, reports in three lines, works, then checkpoints. In an app chat kept open, "each working session" means each new day or each "start" (section 12).
 
 **Checkpoint** (say "checkpoint"):
 1. Append the session to today's log.
@@ -688,7 +702,7 @@ Nothing in the method is specific to Claude. It needs three things: a model that
 6. Flag anything waiting on a person for more than 7 days.
 7. Log decisions.
 
-**Where to talk:** decide in the Haku chat; do deep work in employee chats. Long technical work in the Haku chat fills its context with detail, which is the overload this design avoids.
+**Where to talk:** decide in the Haku chat; do deep work in staff hale chats. Long technical work in the Haku chat fills its context with detail, which is the overload this design avoids.
 
 ## 15. Templates
 
@@ -709,8 +723,9 @@ role is named, ask which one before doing anything.
 | Haku | staff/lead/ | staff/lead/roles/lead.md |
 | <Role> | staff/<role>/ | staff/lead/roles/<role>.md |
 
-Employees also follow staff/lead/roles/_hale-base.md. Ownership,
-dates, and style rules are in staff/lead/KAUHALE.md.
+Every hale, the Haku included, also follows
+staff/lead/roles/_hale-base.md. Ownership, dates, and style rules are
+in staff/lead/KAUHALE.md.
 
 ## Start of every session
 1. App chat: attach and clone <owner>/<repo>. VS Code: git pull.
@@ -720,8 +735,10 @@ dates, and style rules are in staff/lead/KAUHALE.md.
 - Write only in your own folder and the files assigned to you.
 - Commit at each checkpoint, then git pull --rebase and git push.
 - Never force-push or rewrite history on main.
-- Never send email to a list or a person without the owner's approval of
-  the final text.
+- Only the owner opens a hale. Never start another hale, or a second
+  copy of yourself, as a subagent or background session. Helpers that
+  load no role file and write nothing are fine.
+- Never send email or contact anyone. Draft it; the owner sends.
 - No personal data, payment details, PHI, or secrets in git.
 - <the owner's style rules>
 ```
@@ -776,6 +793,7 @@ Before anything else, read staff/lead/roles/_hale-base.md and follow it.
 - **Requests to others** through OUTBOX.md; answers go in your own notes/.
 - **Reviews:** how to request one, and (for advisors) how to give one.
 - **Standing rules:** no sending, no signing, no personal data in git; name the owning role when asked about another domain.
+- **Sessions:** only the owner opens a hale; never start another hale or a second copy of yourself; use helpers only for your own work (section 12).
 
 ### 15.5 STATE.md
 
@@ -816,7 +834,7 @@ Opened: YYYY-MM-DD
 ## Outcome
 ```
 
-Haku directives add `Assigned to:` and `Adopted as:` lines. The employee adopts each one under its own ID, citing the Haku's ID in `Source:`.
+Haku directives add `Assigned to:` and `Adopted as:` lines. The assigned hale adopts each one under its own ID, citing the Haku's ID in `Source:`.
 
 ### 15.7 DIRECTIVES.md index
 
@@ -955,13 +973,14 @@ Last updated: YYYY-MM-DD
 - **Separate making from judging.** In an imaging pipeline, builders own stages and advisors (Physicist, Statistician, Programmer) own specifications and reviews. The builder that wrote a calibration change is the wrong one to judge its physics.
 - **Code projects map hale to the pipeline.** When a codebase already has stages, give each builder a contiguous run of stages and every file exactly one owner. Check ownership with a script: every file should have one owner and none should have two.
 - **Respect existing conventions.** One codebase already had a stage-grouped TODO.md with stable IDs and `Refs TODO:` commits. The kauhale kept them: directives cite TODO IDs, and each hale closes items in its own stages.
-- **Agents report state; the Haku owns the timeline.** Employees never edit the project timeline. They report finished items, and the Haku checks them off.
+- **Agents report state; the Haku owns the timeline.** Staff hale never edit the project timeline. They report finished items, and the Haku checks them off.
 - **Open chats never restart (a conference, 2026-10-04).** Keeping one app chat per hale open for days meant the start routine (pull, Gmail and calendar sweep, Drive check) ran once and never again. The general fix was a daily-restart rule in the base rules. The Claude-specific fix was moving the file-centred hale to Claude Code in VS Code with one slash-command skill per hale (`/haku`, `/secretary`, `/webmaster`), so each new conversation is a fresh session; other tools need their own equivalent.
 - **Gitignored means one machine.** Files in a gitignored folder (`legacy/`) exist only in the clone where they were put. A cloud chat never sees a file added to the local clone; run that hale in VS Code on that machine, or attach the file to the chat.
 - **Recurring outside checks belong in the role file.** The Haku checks the shared Drive at the start of every session, and the Secretary sweeps Gmail and the calendar, each against a saved baseline (a snapshot file, a "Last swept" line), so every session reports only what changed.
 - **External humans work through drafts.** A human companion for a hale (a task force member) gets no repository access; the hale drafts email in its folder and the owner sends it.
 - **The owner needs a front door to the products (a conference, 2026-10-06).** After a few days of work, the conference owner could not find what the hale had made or who owned it: a Gantt chart built the night before was mentioned only in a line of the Webmaster's STATE.md, and the sponsor pipeline sat in a notes folder among drafts and how-tos. STATE.md is the hale's memory and OUTBOX.md carries requests; neither is written for the owner to read. The fix was a PRODUCTS.md in every hale, updated at checkpoint, and one compiled catalog in the Haku's folder with owner, link, as-of date, and status for each product.
 - **One home per hale (a research program, 2026-10-06).** One hale was given units in its private product repository while keeping its house in the control repository, with a launcher in each. Two sessions of that hale, one started from each repository, adopted the same three directives in parallel, and one overwrote the other's files. The fix was the one-home rule in section 8: a hale writes in exactly one repository and reads the rest, and when it leads units in a product repository its house moves there.
+- **Hale must not start hale.** The guide's hybrid let the Haku dispatch roles as subagents, and agents generalized it: the Haku and staff hale began starting other hale, sometimes in the background, while the owner already had those hale open in their own sessions. Two occupants in one house adopt the same directives and overwrite each other's STATE.md, the same collision as "One home per hale" below. The fix was one rule: only the owner opens a hale. Helpers that load no role file and write nothing stay allowed, and the hybrid survives only as owner-requested, foreground dispatch of a hale with no open session (section 3).
 - **One layout everywhere (a research lab, 2026-10-09).** The lab's control repository was first built with its hale at the root, as the guide then specified for control repositories, while the conference kauhale kept its hale in `staff/`. Two shapes meant two sets of paths in role files, launchers, and opening lines. The owner set one standard: every kauhale keeps all its hale under `staff/`. The move was one `git mv` and a path rewrite, cheap only because no session had written there yet.
 - **Exclude lists fail open (a research lab, 2026-10-08).** A website's to-do list and issue log were kept off the site by its exclude list, but its `docs/` folder was missing from that list, so internal planning notes and audit worksheets were publicly served. Nobody noticed, because everyone read the configuration instead of requesting the URLs. The fix was to move the planning files into the Webmaster's hale and exclude `docs/`; the lesson is to test the live site by URL whenever working files sit in a product repository.
 - **Deleting a published file is not instant (a research lab, 2026-10-09).** After the fix merged, the site's origin returned 404, but the hosting provider's edge cache kept serving copies for days. The site's domain was managed by another organization, so the owner had no way to purge that cache. The copies could only age out. Keep working files out of product repositories from the start, and know the cache lifetime and who can purge it before anything sensitive is published.
@@ -985,5 +1004,6 @@ Last updated: YYYY-MM-DD
 - [ ] Claude project created with instructions, memory separate, no uploads
 - [ ] Connectors on; old chats archived
 - [ ] Haku chat opened; first sync run
-- [ ] First employee chats opened with role lines
+- [ ] First staff hale chats opened with role lines
+- [ ] Rule in CLAUDE.md and the base rules: only the owner opens a hale (optionally enforced by a hook)
 - [ ] First checkpoint confirmed on GitHub
