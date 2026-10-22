@@ -4,6 +4,9 @@ Newest first. Each heading is a git tag.
 
 ## Unreleased
 
+- Licensed under CC BY 4.0 (was all rights reserved); LICENSE file added.
+- CONTRIBUTING.md added: how to propose changes by pull request; maintainers decide what merges.
+
 - Git conventions: prefer SQLite when a project needs a database; gitignore the database file and commit the schema and a rebuild script. One hale owns the database and is its only writer; data that cannot be rebuilt gets a backup outside git; the live file stays off synced folders and network drives.
 - Lessons learned: local databases can be recreated on a second machine from the rebuild script.
 - New-project checklist item for the database.

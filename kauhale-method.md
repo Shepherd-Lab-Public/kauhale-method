@@ -4,7 +4,7 @@ A way to run a large, long project as a household of AI agents. Each agent keeps
 
 The Kauhale Method was created by John Shepherd and Sven Prevrhal, inspired by conversations the two had at MICCAI 2026.
 
-Copyright © 2026 John A. Shepherd and Sven Prevrhal. All rights reserved.
+Copyright © 2026 John A. Shepherd and Sven Prevrhal. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): you may share and adapt it, with credit to the authors.
 
 Version 2026-10-09. Changes from 2026-10-06: every kauhale keeps its hale under one `staff/` folder, in every kind of repository; the shared base rules are named `_hale-base.md` everywhere; adopting a product repository now moves its planning files into the kauhale and checks the live product by URL; new lessons on published working files and edge caches (section 19).
 
