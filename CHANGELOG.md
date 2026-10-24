@@ -2,25 +2,18 @@
 
 Newest first. Each heading is a git tag.
 
-## Unreleased
+## 2026-10-24
 
-- New section 17, Safeguards: what counts as sensitive; rules for the repository, the chat, and products; what to do when something leaks; a compliance advisor for regulated data. Sections 17-20 renumbered 18-21.
-- Setup (Node 9) asks about sensitive data and records data rules in KAUHALE.md. The base rules, the CLAUDE.md template, and the git conventions point to section 17; force-pushing is allowed only to remove leaked material.
-- Lessons learned: going public exposes the history.
-- Using other models (section 13): helper agents in any tool follow the owner-opens-a-hale rule; data handling differs by AI service, so check each against the data rules.
-
-- Names of specific projects, repositories, and hale removed from the guide; lessons keep the kind of project and the date.
-
-- Licensed under CC BY 4.0 (was all rights reserved); LICENSE file added.
-- CONTRIBUTING.md added: how to propose changes by pull request; maintainers decide what merges.
-
-- Git conventions: prefer SQLite when a project needs a database; gitignore the database file and commit the schema and a rebuild script. One hale owns the database and is its only writer; data that cannot be rebuilt gets a backup outside git; the live file stays off synced folders and network drives.
-- Lessons learned: local databases can be recreated on a second machine from the rebuild script.
-- New-project checklist item for the database.
-- Only the owner opens a hale: no agent starts another hale, or a second copy of itself, as a subagent or background session. Helpers that load no role file and write nothing are still allowed. Added to section 12, the CLAUDE.md template, the base rules, units, and the checklist, with an optional Claude Code hook to enforce it.
+- New section 17, Safeguards: what counts as sensitive; rules for the repository, agent sessions, and products; what to do when something leaks; a compliance advisor for regulated data. Setup (Node 9) asks about sensitive data and records data rules in KAUHALE.md; the base rules, the CLAUDE.md template, and the git conventions point to section 17. Force-pushing is allowed only to remove leaked material. Sections 17-20 renumbered 18-21.
+- Only the owner opens a hale: no agent starts another hale, or a second copy of itself, as a subagent or background session. Helpers that load no role file and write nothing are still allowed. Added to section 12, section 13, the CLAUDE.md template, the base rules, units, and the checklist, with an optional Claude Code hook to enforce it.
 - The hybrid (section 3) narrowed: the Haku dispatches a hale subagent only when the owner asks, in the foreground, for a hale with no open session.
-- Lessons learned: hale must not start hale.
-- Consistency: "staff hale" replaces "employee"; every hale, the Haku included, follows `_hale-base.md`; the Haku's folder has its own STATE.md; one opening-line form; agents never send email (drafts only), matching section 17; launchers shown in the standalone layout; PRODUCTS.md added to the growth and build steps; a wrong cross-reference to the style rules fixed; project-specific names moved out of section 12.
+- Using other models (section 13): data handling differs by AI service, so check each against the data rules.
+- Git conventions: prefer SQLite when a project needs a database; gitignore the database file and commit the schema and a rebuild script. One hale owns the database and is its only writer; data that cannot be rebuilt gets a backup outside git; the live file stays off synced folders and network drives.
+- Lessons learned: hale must not start hale; going public exposes the history; local databases can be recreated from the rebuild script.
+- Names of specific projects, repositories, and hale removed from the guide; lessons keep the kind of project and the date.
+- Consistency: "staff hale" replaces "employee"; every hale, the Haku included, follows `_hale-base.md`; the Haku's folder has its own STATE.md; one opening-line form; agents never send email (drafts only), matching section 18; launchers shown in the standalone layout; PRODUCTS.md added to the growth and build steps; a wrong cross-reference to the style rules fixed.
+- New-project checklist items for data rules, the database, and the owner-opens-a-hale rule.
+- Licensed under CC BY 4.0 (was all rights reserved); LICENSE file added. CONTRIBUTING.md added: how to propose changes by pull request; maintainers decide what merges.
 
 ## 2026-10-09
 

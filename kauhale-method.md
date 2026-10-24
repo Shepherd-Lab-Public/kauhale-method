@@ -6,7 +6,7 @@ The Kauhale Method was created by John Shepherd and Sven Prevrhal, inspired by c
 
 Copyright © 2026 John A. Shepherd and Sven Prevrhal. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): you may share and adapt it, with credit to the authors.
 
-Version 2026-10-09. Changes from 2026-10-06: every kauhale keeps its hale under one `staff/` folder, in every kind of repository; the shared base rules are named `_hale-base.md` everywhere; adopting a product repository now moves its planning files into the kauhale and checks the live product by URL; new lessons on published working files and edge caches (section 20).
+Version 2026-10-24. Changes from 2026-10-09: a new Safeguards section (section 17) for health, personal, and other sensitive data, in the repository and in agent sessions; only the owner opens a hale, so agents never start other hale; the hybrid narrowed to owner-requested dispatch; SQLite guidance for projects that need a database; licensed under CC BY 4.0.
 
 Throughout this guide, **the owner** means you: the person the agents work for, who makes the final decisions.
 
