@@ -4,6 +4,11 @@ Newest first. Each heading is a git tag.
 
 ## Unreleased
 
+- New section 17, Safeguards: what counts as sensitive; rules for the repository, the chat, and products; what to do when something leaks; a compliance advisor for regulated data. Sections 17-20 renumbered 18-21.
+- Setup (Node 9) asks about sensitive data and records data rules in KAUHALE.md. The base rules, the CLAUDE.md template, and the git conventions point to section 17; force-pushing is allowed only to remove leaked material.
+- Lessons learned: going public exposes the history.
+- Using other models (section 13): helper agents in any tool follow the owner-opens-a-hale rule; data handling differs by AI service, so check each against the data rules.
+
 - Names of specific projects, repositories, and hale removed from the guide; lessons keep the kind of project and the date.
 
 - Licensed under CC BY 4.0 (was all rights reserved); LICENSE file added.

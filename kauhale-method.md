@@ -6,7 +6,7 @@ The Kauhale Method was created by John Shepherd and Sven Prevrhal, inspired by c
 
 Copyright © 2026 John A. Shepherd and Sven Prevrhal. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): you may share and adapt it, with credit to the authors.
 
-Version 2026-10-09. Changes from 2026-10-06: every kauhale keeps its hale under one `staff/` folder, in every kind of repository; the shared base rules are named `_hale-base.md` everywhere; adopting a product repository now moves its planning files into the kauhale and checks the live product by URL; new lessons on published working files and edge caches (section 19).
+Version 2026-10-09. Changes from 2026-10-06: every kauhale keeps its hale under one `staff/` folder, in every kind of repository; the shared base rules are named `_hale-base.md` everywhere; adopting a product repository now moves its planning files into the kauhale and checks the live product by URL; new lessons on published working files and edge caches (section 20).
 
 Throughout this guide, **the owner** means you: the person the agents work for, who makes the final decisions.
 
@@ -50,7 +50,7 @@ Plain English words used throughout:
 - **Assume no technical background.** Explain each term the first time it appears, in one plain sentence. A repository is "an online folder for your project that keeps every version of every file." A commit is "a saved snapshot of changes." Pushing is "sending saved changes up to GitHub."
 - **Confirm every step.** After each action the person takes, ask them to confirm it worked, or check it yourself if you have the tools. Never move on from a step that failed.
 - **Do it for them when you can.** If you have tools that can create files, commit, or push, offer to do the step yourself. Otherwise give exact click-by-click instructions.
-- **Protect them.** Never ask for passwords, tokens, or payment details. Never push, delete, or publish without their explicit go-ahead. Keep personal, financial, or health data out of the repository.
+- **Protect them.** Never ask for passwords, tokens, or payment details. Never push, delete, or publish without their explicit go-ahead. Keep personal, financial, or health data out of the repository and out of agent sessions (Part B section 17).
 - **Keep a running summary.** After each stage, say in two lines what is done and what comes next. If the session ends partway, the summary tells the person where to resume.
 - **Interface details change.** Button names and menus may differ from this guide. Describe the goal ("connect GitHub to Claude") alongside the steps, and adapt to what the person sees.
 
@@ -159,6 +159,8 @@ If others are involved, ask who, what part each person plays, and whether each w
 ### Node 9. Style and rules
 
 Ask how the agents should write: voice, spelling (US or UK), punctuation habits, words or constructions to avoid, formality. Ask for any hard rules ("never email anyone," "never change the published site without asking"). These go into KAUHALE.md.
+
+Then ask: "Will the project touch anything sensitive: patient or participant data, personal contact details, salaries, evaluations of people, unpublished results, passwords or keys?" Use the list in Part B section 17. For each yes, agree where it will live outside the repository. If identifiable health or participant data is involved, ask whether the institution and the AI service plan allow it in agent sessions; if not, or if they are unsure, the agents use de-identified data only. Record the answers in KAUHALE.md under the data rules, and suggest a compliance advisor (Part B section 7) for regulated data.
 
 ### Node 10. Build it
 
@@ -479,7 +481,7 @@ Add an advisor when a kind of judgment cuts across several builders, or when a w
 | Physicist or domain scientist | Builders implement models of the real world, and physical validity must be checked by someone who did not write the code |
 | Statistician | Results depend on feature definitions, models, or uncertainty that must be stated precisely and reproducibly |
 | Programmer | The product is code that several builders change, and quality, tests, and alternative approaches need one consistent reviewer |
-| Bioethics or compliance | Human subjects, data governance, or regulations constrain what builders may do |
+| Bioethics or compliance | Human subjects, data governance, or regulations constrain what builders may do (section 17, "Who checks") |
 
 A text project (a grant, a conference) usually needs few advisors or none; its builders and the Haku are enough. A code project usually needs at least a Programmer.
 
@@ -560,7 +562,7 @@ The kauhale lives in its own private repository. The products it works on live i
 - **One home per hale:** a hale writes its records (STATE, directives, OUTBOX, log, notes) in exactly one repository, its home. Every other repository it only reads, or changes as product through that repository's workflow.
 - **Working in two repositories:** in an app chat, attach both. In VS Code, keep sibling clones and open them together as one workspace.
 - **Product rules stay in force:** each product repository keeps its own workflow (branch, preview, approval, merge). The hale that owns it follows that workflow.
-- **Access:** GitHub grants access per repository. Everyone who runs a hale can read the whole control repository, so material some counterparts should not see (draft evaluations of people or projects, advisory committee comments, salaries) stays off GitHub, with a pointer in the control repository.
+- **Access:** GitHub grants access per repository. Everyone who runs a hale can read the whole control repository, so material some counterparts should not see (draft evaluations of people or projects, advisory committee comments, salaries) stays off GitHub, with a pointer in the control repository (section 17).
 
 ### Larger organizations
 
@@ -594,7 +596,7 @@ Most projects already exist before they become a kauhale. An existing repository
 
 ### Worked examples
 
-- **A conference website** (control repository): the site repository was a live Jekyll site with its own agent manual, a planner agent, and a branch-and-preview rule. The kauhale lives in a separate private staff repository. The planner's duties were split between a ScienceAdmin and a Webmaster and the planner retired. The Webmaster's kuleana extends into the site repository, where it follows the site's preview rule; its directives and notes stay in the staff repository. (The team first lived inside the site repository under an excluded `staff/` folder; see the lesson in section 19.)
+- **A conference website** (control repository): the site repository was a live Jekyll site with its own agent manual, a planner agent, and a branch-and-preview rule. The kauhale lives in a separate private staff repository. The planner's duties were split between a ScienceAdmin and a Webmaster and the planner retired. The Webmaster's kuleana extends into the site repository, where it follows the site's preview rule; its directives and notes stay in the staff repository. (The team first lived inside the site repository under an excluded `staff/` folder; see the lesson in section 20.)
 - **An imaging analysis pipeline** (code): the repository had an 11-stage pipeline, a stage-grouped TODO.md with stable IDs and `Refs TODO:` commits, a lab notebook, and several experiment branches. Builder hale were drawn along pipeline stages, every code file got one owner (checked by script), the existing TODO.md stayed the main work list, experiment branches were assigned to their hale, and two active collaborators became counterparts.
 
 ## 10. Trying the method without committing
@@ -670,7 +672,7 @@ In Claude Code, this can be enforced rather than only instructed: a `PreToolUse`
 
 **Switching roles with one command per hale (Claude-specific).** The mechanism below is unique to Claude Code; the principle is general: give each role a single command that starts a fresh session and loads its role file. Other agent tools offer their own ways to store reusable prompts or commands; use whatever the tool provides, or simply paste the role line into a new session. In Claude Code, give each hale a project skill at `.claude/skills/<hale>/SKILL.md` with `disable-model-invocation: true`, so only the human can run it. The skill pulls, reads CLAUDE.md and the role file, and runs the start routine. Switching roles is then: start a new conversation in the Claude panel and type `/haku`, `/webmaster`, `/statistician`. Each new conversation is a fresh session, so the start routine runs every time without a trigger rule. The skills live in the repository, so every clone has them.
 
-**Split by what each hale must reach.** The principle is general: run a role wherever its tools and data are. In the Claude setup, hale that need connectors (Gmail, Calendar, Drive, the Claude project) run in Claude app chats with the daily-restart rule. Hale that work on repository files and local, gitignored sources run in VS Code, where local folders are visible and fresh sessions come free (section 19, "Open chats never restart").
+**Split by what each hale must reach.** The principle is general: run a role wherever its tools and data are. In the Claude setup, hale that need connectors (Gmail, Calendar, Drive, the Claude project) run in Claude app chats with the daily-restart rule. Hale that work on repository files and local, gitignored sources run in VS Code, where local folders are visible and fresh sessions come free (section 20, "Open chats never restart").
 
 ## 13. Using other models
 
@@ -680,7 +682,9 @@ Nothing in the method is specific to Claude. It needs three things: a model that
 - **Repository access differs.** How a chat attaches, clones, and pushes depends on the product. The role files, templates, and routines carry over unchanged; only the "get the repository" step changes.
 - **Session launchers are tool-specific.** The method needs a way to start a fresh session in a given role. Claude Code does it with project skills invoked as slash commands (section 12); other tools have their own mechanisms, or the role line pasted into a new session works anywhere. Keep the launcher thin: it should only point to the role file, so the rules stay in one tool-neutral place.
 - **Models can be mixed across hale.** The repository is the only interface between agents, so one hale can run on one model and another on a different one. Keep the one-session-per-hale rule.
-- **Discipline matters more with weaker models.** A model that follows instructions loosely will skip checkpoints or write outside its kuleana. Enforce ownership in GitHub (see section 17) rather than relying on instructions alone.
+- **Helper agents follow the same rule.** Many tools let an agent launch other agents. Whatever the tool calls them, an agent that loads a role file is that hale, so only the owner starts one (section 12, "Only the owner opens a hale").
+- **Data handling differs by service.** What one AI service retains, logs, or uses for training, another may not, and the same vendor's plans can differ. Check each service a hale uses against the project's data rules before it sees anything sensitive (section 17).
+- **Discipline matters more with weaker models.** A model that follows instructions loosely will skip checkpoints or write outside its kuleana. Enforce ownership in GitHub (see section 18) rather than relying on instructions alone.
 
 ## 14. Operating rhythm
 
@@ -739,7 +743,13 @@ in staff/lead/KAUHALE.md.
   copy of yourself, as a subagent or background session. Helpers that
   load no role file and write nothing are fine.
 - Never send email or contact anyone. Draft it; the owner sends.
-- No personal data, payment details, PHI, or secrets in git.
+- No PHI, personal data, payment details, or secrets in git. Keep them
+  where KAUHALE.md's data rules say, and leave a pointer.
+- De-identified data only in agent sessions, unless KAUHALE.md's data
+  rules say otherwise.
+- Logs and notes summarize; never quote an email or copy an address.
+- If something sensitive reaches git or an agent session, stop and tell
+  the owner.
 - <the owner's style rules>
 ```
 
@@ -747,6 +757,7 @@ in staff/lead/KAUHALE.md.
 
 1. **Goals and key dates**
 2. **Style rules for all agents**: the owner's voice, spelling, punctuation, and words to avoid
+   - **Data rules**: what sensitive material the project touches, where each kind lives, and what the AI service may see (section 17)
 3. **Ownership**: each role, its folder, and any shared files it owns
    - **Review gate** (when the kauhale has advisors): which reviews each kind of change needs before it merges
 4. **Status by role**: three to five lines each, with active directive IDs
@@ -792,7 +803,8 @@ Before anything else, read staff/lead/roles/_hale-base.md and follow it.
 - **Start of session** and **Checkpoint** routines from section 14.
 - **Requests to others** through OUTBOX.md; answers go in your own notes/.
 - **Reviews:** how to request one, and (for advisors) how to give one.
-- **Standing rules:** no sending, no signing, no personal data in git; name the owning role when asked about another domain.
+- **Standing rules:** no sending, no signing; name the owning role when asked about another domain.
+- **Safeguards:** the rules in section 17 and the project's data rules in KAUHALE.md: no PHI, personal data, payment details, or secrets in git; de-identified data only in agent sessions unless the data rules allow more; logs summarize and never quote; report any leak to the owner at once.
 - **Sessions:** only the owner opens a hale; never start another hale or a second copy of yourself; use helpers only for your own work (section 12).
 
 ### 15.5 STATE.md
@@ -930,12 +942,60 @@ Last updated: YYYY-MM-DD
 - Commit messages: `[PREFIX] PREFIX-NNN short description`.
 - Agent files commit directly to `main`. Each agent writes only its own folder, so parallel pushes rebase cleanly.
 - Product repositories keep their own review workflow (branch, preview, approval, merge). The hale that owns one follows it.
-- Never force-push or rewrite `main`. Unverified-commit badges on old commits are cosmetic; leave them.
-- `.gitignore` large binaries and sensitive data. For files that must stay local, such as copyrighted PDFs, commit a manifest listing what should be present, named by key.
+- Never force-push or rewrite `main`, except to remove leaked material (section 17). Unverified-commit badges on old commits are cosmetic; leave them.
+- `.gitignore` large binaries and sensitive data (section 17). For files that must stay local, such as copyrighted PDFs, commit a manifest listing what should be present, named by key.
 - When a project needs a database, prefer SQLite: one file, no server to run. Keep the database file out of the repository (gitignore `*.db`, `*.sqlite`). Commit the schema and a script that rebuilds the database from its sources instead. One hale owns the schema and the rebuild script and is the only one that writes; the others read or send requests through OUTBOX.md. If anything in the database cannot be rebuilt, back it up somewhere other than git and say where in the owning hale's role file. Keep the live file off synced folders (Dropbox, OneDrive, Google Drive) and network drives, where SQLite files can be corrupted.
-- Keep `main` free of branch protection rules that would reject agent pushes, unless you add the pull-request setup in section 17.
+- Keep `main` free of branch protection rules that would reject agent pushes, unless you add the pull-request setup in section 18.
 
-## 17. Human counterparts and access
+## 17. Safeguards
+
+Every hale follows these rules, whatever model or agent tool runs it; `_hale-base.md` carries them into every role. Sensitive material can leak in three places: the repository, the agent session, and the products. Here, **the AI service** means whoever runs the model a hale uses: the vendor of a chat app, an API provider, or your own institution's server.
+
+### What counts as sensitive
+
+- **Health information:** protected health information (PHI) and anything else that identifies a patient or research participant.
+- **Personal data:** home addresses, phone numbers, personal email addresses, birth dates, ID numbers.
+- **Credentials:** passwords, API keys, tokens, `.env` files, private keys.
+- **Financial details:** card and bank numbers, salaries, individual budgets.
+- **Judgments about people:** draft evaluations, reviews of applicants or speakers, committee comments.
+- **Material under embargo or agreement:** unpublished results, grant text before submission, data covered by a data-use agreement.
+
+When in doubt, treat it as sensitive and ask the owner.
+
+### The repository
+
+- **Sensitive material never goes in git,** in any repository, private or public. Everyone with access reads the whole repository, and its history keeps every version of every file.
+- **Keep it where it belongs** (an institutional drive, a secure research server, the owner's email) and leave a pointer in the repository: a document name, never a copy.
+- **Gitignore from the first commit:** `.env`, key files, and local data folders. Turn on your git host's secret scanning, so a pushed key is caught or blocked (on GitHub: secret scanning and push protection).
+- **Logs summarize; they never quote.** "Sponsor replied about the gold tier" goes in the log. The email itself and the sender's address do not. This matters most for hale that sweep email or calendars (section 20).
+- **Read the history before changing visibility.** A private repository made public exposes every past version, not just the current files (section 20, "Going public exposes the history").
+
+### The agent session
+
+- **A session is not a vault.** Anything pasted into a chat, read from a file, or pulled in through a connector or integration (email, calendar, file storage) goes to the AI service, whether or not it is ever committed.
+- **De-identified data only,** unless the owner has confirmed that both the AI service plan and the institution allow identifiable data: IRB approval, a data-use agreement, and a business associate agreement where HIPAA applies. Record that confirmation, and its limits, in KAUHALE.md.
+- **Identifiable data stays on its machine.** A hale that must work on it runs locally (section 12), against data that never leaves that machine, and reports only aggregate or de-identified results.
+- **Narrow connections.** Give each hale only the connectors, integrations, and tool permissions it needs, and give each sweep a narrow scope: one label, one calendar, one folder.
+
+### Products and people
+
+- **Agents draft; the owner sends** (section 18).
+- **Personal data lives outside the repository.** A draft or product that holds contact or personal data lives in the owner's drive, listed in PRODUCTS.md by document name.
+- **TEAM.md holds names and roles only.**
+
+### When something leaks
+
+1. **Stop and tell the owner.** Never fix it quietly.
+2. **Rotate any exposed credential at once.** Removing it from git does not make it safe again.
+3. **Remove it from the repository,** and from the history if it was ever pushed: rewrite the history, force-push, and ask your git host to purge cached views and unreferenced commits (on GitHub, through GitHub Support). This is the one exception to "never rewrite `main`" (section 16).
+4. **Check every other copy:** the live site and its cache (section 20), forks, and clones.
+5. **Notify whoever the institution requires** (privacy office, IRB, data owner) and record the incident in the decision log.
+
+### Who checks
+
+For a project with PHI, human-subject data, or other regulated data, add a compliance advisor (section 7). Its specifications turn these rules into the project's own, and its review is part of the review gate.
+
+## 18. Human counterparts and access
 
 - **TEAM.md** names the human behind each role and how they connect.
 - **Agents never contact people.** They draft; the owner sends.
@@ -945,7 +1005,7 @@ Last updated: YYYY-MM-DD
   - Any plan: a ruleset on `main` requiring pull requests, with the owner as the only bypass; a role map of GitHub usernames; a GitHub Action that fails a pull request touching folders outside the author's role; CODEOWNERS for the Haku folder.
   - Team or Enterprise plan: push rulesets that block changes to protected paths unless the pusher is on the bypass list.
 
-## 18. Long-run maintenance
+## 19. Long-run maintenance
 
 **Rotate chats** when an agent forgets earlier decisions, repeats itself, or slows down, or on a schedule (weekly, or after each finished directive):
 1. Say "checkpoint" and confirm the commit reached GitHub.
@@ -962,7 +1022,7 @@ Last updated: YYYY-MM-DD
 
 **Long-lived chats need a restart trigger.** Rotating chats is one remedy; the other is the daily-restart rule in section 12, which keeps an open chat from working on a stale clone.
 
-## 19. Lessons learned
+## 20. Lessons learned
 
 - **Read before restructuring.** Look at the existing repositories, timelines, and agents before designing roles. One conference repository already had team labels and a planner agent whose duties split cleanly into the new roles.
 - **Deliverables as fragments.** When the product must be assembled (LaTeX attachments, a website, a book's chapters), each role writes plain fragments in its own folder and one role owns the build that pulls them in. Ownership stays clean and the build stays in one place.
@@ -983,9 +1043,10 @@ Last updated: YYYY-MM-DD
 - **Hale must not start hale.** The guide's hybrid let the Haku dispatch roles as subagents, and agents generalized it: the Haku and staff hale began starting other hale, sometimes in the background, while the owner already had those hale open in their own sessions. Two occupants in one house adopt the same directives and overwrite each other's STATE.md, the same collision as "One home per hale" below. The fix was one rule: only the owner opens a hale. Helpers that load no role file and write nothing stay allowed, and the hybrid survives only as owner-requested, foreground dispatch of a hale with no open session (section 3).
 - **One layout everywhere (a research lab, 2026-10-09).** The lab's control repository was first built with its hale at the root, as the guide then specified for control repositories, while the conference kauhale kept its hale in `staff/`. Two shapes meant two sets of paths in role files, launchers, and opening lines. The owner set one standard: every kauhale keeps all its hale under `staff/`. The move was one `git mv` and a path rewrite, cheap only because no session had written there yet.
 - **Exclude lists fail open (a research lab, 2026-10-08).** A website's to-do list and issue log were kept off the site by its exclude list, but its `docs/` folder was missing from that list, so internal planning notes and audit worksheets were publicly served. Nobody noticed, because everyone read the configuration instead of requesting the URLs. The fix was to move the planning files into the Webmaster's hale and exclude `docs/`; the lesson is to test the live site by URL whenever working files sit in a product repository.
+- **Going public exposes the history (2026-10-24).** When this guide's own repository was made public, its current text was clean, but earlier versions named the projects behind the lessons and described one lab's leak in detail, and every version was readable through old commits and tags. Fixing it meant rewriting the history, force-pushing, and asking GitHub to purge its cached copies; clones made before the fix kept the old text. Read the history, not just the current files, before changing a repository's visibility (section 17).
 - **Deleting a published file is not instant (a research lab, 2026-10-09).** After the fix merged, the site's origin returned 404, but the hosting provider's edge cache kept serving copies for days. The site's domain was managed by another organization, so the owner had no way to purge that cache. The copies could only age out. Keep working files out of product repositories from the start, and know the cache lifetime and who can purge it before anything sensitive is published.
 
-## 20. New project checklist
+## 21. New project checklist
 
 - [ ] Trial only: start tagged, additive changes only, review date in KAUHALE.md
 - [ ] Existing repository: adoption checklist (section 9) followed
@@ -998,6 +1059,7 @@ Last updated: YYYY-MM-DD
 - [ ] KAUHALE.md, timeline, TEAM.md, PRODUCTS.md, CLAUDE.md, README written
 - [ ] All hale under `staff/`, with the Haku at `staff/lead/`
 - [ ] Nothing of the kauhale in any repository that publishes; pointer CLAUDE.md in each product repository (control repository only); product repositories' planning files moved to their hale
+- [ ] Data rules in KAUHALE.md: sensitive material listed, where each kind lives, what the AI service may see; `.env` and key files gitignored; the git host's secret scanning on (section 17)
 - [ ] Database (if any): SQLite, file gitignored, schema and rebuild script committed, one owning hale, backup plan for anything that cannot be rebuilt
 - [ ] Live product checked by URL: working files and the pointer CLAUDE.md return 404
 - [ ] Committed and pushed (or merged after review)
