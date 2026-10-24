@@ -4,6 +4,8 @@ Newest first. Each heading is a git tag.
 
 ## Unreleased
 
+- Names of specific projects, repositories, and hale removed from the guide; lessons keep the kind of project and the date.
+
 - Licensed under CC BY 4.0 (was all rights reserved); LICENSE file added.
 - CONTRIBUTING.md added: how to propose changes by pull request; maintainers decide what merges.
 
